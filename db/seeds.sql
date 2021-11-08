@@ -10,27 +10,27 @@ VALUES
 
 INSERT INTO role (title, salary, department_id)
 VALUES
-  ('President/CEO', '$250,000', 1),
-  ('Director of Sales', '$175,000', 2),
-  ('Sales Manager', '$100,000', 2),
-  ('Salesperson', '$80,000', 2),
-  ('Director of Engineering', '$180,000', 3),
-  ('Head Engineer', '$125,000', 3),
-  ('Engineer', '$80,000', 3),
-  ('Engineering Intern', '$30,000', 3),
-  ('Director of Marketing', '$125,000', 4),
-  ('Marketing Coordinator', '$85,000', 4),
-  ('Marketing Intern', '$30,000', 4),
-  ('Director of Lifestyle', '$125,000', 5),
-  ('Content Creator', '$65,000', 5),
-  ('Director of F&B', '$95,000', 6),
-  ('Head Chef', '$80,000', 6),
-  ('F&B Manager', '$70,000', 6),
-  ('Cook', '$45,000', 6),
-  ('Host', '$35,000', 6),
-  ('Server', '$20,000', 6),
-  ('Director of HR', '$130,000', 7),
-  ('HR Coordinator', '$75,000', 7);
+  ('President/CEO', '250000', 1),
+  ('Director of Sales', '175000', 2),
+  ('Sales Manager', '100000', 2),
+  ('Salesperson', '80000', 2),
+  ('Director of Engineering', '180000', 3),
+  ('Head Engineer', '125000', 3),
+  ('Engineer', '80000', 3),
+  ('Engineering Intern', '30000', 3),
+  ('Director of Marketing', '125000', 4),
+  ('Marketing Coordinator', '85000', 4),
+  ('Marketing Intern', '30000', 4),
+  ('Director of Lifestyle', '125000', 5),
+  ('Content Creator', '65000', 5),
+  ('Director of F&B', '95000', 6),
+  ('Head Chef', '80000', 6),
+  ('F&B Manager', '70000', 6),
+  ('Cook', '45000', 6),
+  ('Host', '35000', 6),
+  ('Server', '20000', 6),
+  ('Director of HR', '130000', 7),
+  ('HR Coordinator', '75000', 7);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
