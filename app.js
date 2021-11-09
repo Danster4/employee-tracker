@@ -15,7 +15,8 @@ const startMenuQuestion = [
       "Show all Departments",
       "Add a Department",
       "Show all Employees",
-      "Add an Employee"
+      "Add an Employee",
+      "Update an Employee's role"
     ]
   }
 ]
@@ -61,13 +62,29 @@ const addEmployeeQuestions = [
   {
     type: 'input',
     name: 'role_id',
-    message: 'What role is the new employee in? Please type the number only of the "id" section shown above!'
+    message: 'What role is the new employee in? Please type the number only of the "id" section shown above!',
   },
   {
     type: 'input',
     name: 'manager_id',
     message: 'Who is the manager for the new employee? Please type the number only of the "id" section shown above!'
   }
+]
+
+const chooseEmployeeQuestion = [
+  {
+    type: 'input',
+    name: 'employee_id',
+    message: 'Which employee would you like to update? Please only type the number of the "id" of the employee!'
+  },
+]
+
+const updateEmployeeRoleQuestion = [
+  {
+    type: 'input',
+    name: 'role_id',
+    message: 'What new role would you like for your employee? Please only type the number of the "id" of the role!'
+  },
 ]
 
 
@@ -104,6 +121,29 @@ const addEmployee = async() => {
   const params = [result.first_name, result.last_name, result.role_id, result.manager_id];
 
   db.query(sql, params, function (err, results) {
+    console.log("");
+    console.table(results);
+  });
+  startMenu();
+}
+
+const chooseEmployee = async() => {
+  const result = await inquirer.prompt(chooseEmployeeQuestion);
+
+  db.query('SELECT role.*, department.name AS department_name FROM role LEFT JOIN department ON role.department_id = department.id', function (err, results) {
+          console.log("");
+          console.table(results);
+        });
+  
+  updateEmployeeRole(result.employee_id);
+}
+
+const updateEmployeeRole = async(employeeID) => {
+  const result = await inquirer.prompt(updateEmployeeRoleQuestion)
+  const sql = `UPDATE employee SET role_id = ${result.role_id}
+  WHERE id = ${employeeID}`;
+
+  db.query(sql, function (err, results) {
     console.log("");
     console.table(results);
   });
@@ -160,6 +200,14 @@ const startMenu = async() => {
           console.table(results);
         });
         addEmployee();
+        break;
+
+      case "Update an Employee's role":
+        db.query('SELECT employee.*, role.title AS role_title FROM employee LEFT JOIN role ON employee.role_id = role.id', function (err, results) {
+          console.log("");
+          console.table(results);
+        });
+        chooseEmployee();
         break;
     }
   });
