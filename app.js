@@ -1,5 +1,4 @@
 const inquirer = require('inquirer');
-const roleRoutes = require('./routes/apiRoutes/roleRoutes')
 const cTable = require('console.table');
 const db = require('./db/connection');
 
@@ -13,11 +12,34 @@ const startMenuQuestion = [
     choices: [
       "Show all Roles",
       "Show all Departments",
+      "Add a Department",
       "Show all Employees"
     ]
   }
 ]
 
+const addDepartmentQuestion = [
+  {
+    type: 'input',
+    name: 'name',
+    message: 'What department would you like to add?'
+  }
+]
+
+// addIntern() function prompts questions and creates new Intern object and adds to employeeBucket array
+const addDepartment = async() => {
+  const result = await inquirer.prompt(addDepartmentQuestion)
+  const sql = `INSERT INTO department (name)
+  VALUES (?)`;
+  const params = [result.name];
+
+  db.query(sql, params, function (err, results) {
+    console.log("");
+    console.table(results);
+  });
+  startMenu();
+  
+}
 
 const startMenu = async() => {
   const result = await inquirer.prompt(startMenuQuestion)
@@ -39,6 +61,10 @@ const startMenu = async() => {
         startMenu();
         break;
 
+      case "Add a Department":
+        addDepartment();
+        break;
+
       case "Show all Employees":
         db.query('SELECT employee.*, role.title AS role_title FROM employee LEFT JOIN role ON employee.role_id = role.id', function (err, results) {
           console.log("");
@@ -50,6 +76,7 @@ const startMenu = async() => {
   });
 }
 
+// employee.last_name AS manager_name FROM employee LEFT JOIN employee ON employee.manager_id = employee.id
 // employee.last_name AS manager_last_name FROM employee LEFT JOIN employee ON employee.manager_id = employee.id
 
 const startApp = async() => {
