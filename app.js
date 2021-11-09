@@ -11,10 +11,30 @@ const startMenuQuestion = [
     message: 'What would you like to do?',
     choices: [
       "Show all Roles",
+      "Add a Role",
       "Show all Departments",
       "Add a Department",
-      "Show all Employees"
+      "Show all Employees",
+      "Add an Employee"
     ]
+  }
+]
+
+const addRoleQuestions = [
+  {
+    type: 'input',
+    name: 'title',
+    message: 'What is the title of the new role?'
+  },
+  {
+    type: 'input',
+    name: 'salary',
+    message: 'What is the salary of the new role?'
+  },
+  {
+    type: 'input',
+    name: 'department',
+    message: 'What department is the new role in? Please type the number only of the department shown above!'
   }
 ]
 
@@ -26,7 +46,44 @@ const addDepartmentQuestion = [
   }
 ]
 
-// addIntern() function prompts questions and creates new Intern object and adds to employeeBucket array
+
+const addEmployeeQuestions = [
+  {
+    type: 'input',
+    name: 'first_name',
+    message: 'What is the first name of the new employee?'
+  },
+  {
+    type: 'input',
+    name: 'last_name',
+    message: 'What is the last name of the new employee?'
+  },
+  {
+    type: 'input',
+    name: 'role_id',
+    message: 'What role is the new employee in? Please type the number only of the "id" section shown above!'
+  },
+  {
+    type: 'input',
+    name: 'manager_id',
+    message: 'Who is the manager for the new employee? Please type the number only of the "id" section shown above!'
+  }
+]
+
+
+const addRole = async() => {
+  const result = await inquirer.prompt(addRoleQuestions)
+  const sql = `INSERT INTO role (title, salary, department_id)
+  VALUES (?,?,?)`;
+  const params = [result.title, result.salary, result.department];
+
+  db.query(sql, params, function (err, results) {
+    console.log("");
+    console.table(results);
+  });
+  startMenu();
+}
+
 const addDepartment = async() => {
   const result = await inquirer.prompt(addDepartmentQuestion)
   const sql = `INSERT INTO department (name)
@@ -38,7 +95,19 @@ const addDepartment = async() => {
     console.table(results);
   });
   startMenu();
-  
+}
+
+const addEmployee = async() => {
+  const result = await inquirer.prompt(addEmployeeQuestions)
+  const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+  VALUES (?,?,?,?)`;
+  const params = [result.first_name, result.last_name, result.role_id, result.manager_id];
+
+  db.query(sql, params, function (err, results) {
+    console.log("");
+    console.table(results);
+  });
+  startMenu();
 }
 
 const startMenu = async() => {
@@ -51,6 +120,14 @@ const startMenu = async() => {
           console.table(results);
         });
         startMenu();
+        break;
+      
+      case "Add a Role":
+        db.query('SELECT * FROM department', function (err, results) {
+          console.log("");
+          console.table(results);
+        });
+        addRole();
         break;
 
       case "Show all Departments":
@@ -71,6 +148,18 @@ const startMenu = async() => {
           console.table(results);
         });
         startMenu();
+        break;
+
+      case "Add an Employee":
+        db.query('SELECT role.*, department.name AS department_name FROM role LEFT JOIN department ON role.department_id = department.id', function (err, results) {
+          console.log("");
+          console.table(results);
+        });
+        db.query('SELECT employee.*, role.title AS role_title FROM employee LEFT JOIN role ON employee.role_id = role.id', function (err, results) {
+          console.log("");
+          console.table(results);
+        });
+        addEmployee();
         break;
     }
   });
