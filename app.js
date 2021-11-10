@@ -3,7 +3,7 @@ const cTable = require('console.table');
 const db = require('./db/connection');
 
 
-
+// All Question Arrays
 const startMenuQuestion = [
   {
     type: 'list',
@@ -88,6 +88,8 @@ const updateEmployeeRoleQuestion = [
 ]
 
 
+
+// All functions to use for manipulating MySQL database
 const addRole = async() => {
   const result = await inquirer.prompt(addRoleQuestions)
   const sql = `INSERT INTO role (title, salary, department_id)
@@ -130,7 +132,7 @@ const addEmployee = async() => {
 const chooseEmployee = async() => {
   const result = await inquirer.prompt(chooseEmployeeQuestion);
 
-  db.query('SELECT role.*, department.name AS department_name FROM role LEFT JOIN department ON role.department_id = department.id', function (err, results) {
+  db.query('SELECT role.id, role.title FROM role', function (err, results) {
           console.log("");
           console.table(results);
         });
@@ -150,12 +152,14 @@ const updateEmployeeRole = async(employeeID) => {
   startMenu();
 }
 
+
+// startMenu function acts as switchboard for options to manipulate database
 const startMenu = async() => {
   const result = await inquirer.prompt(startMenuQuestion)
   .then(function(result) {
     switch (result.startMenuQuestion) {
       case "Show all Roles":
-        db.query('SELECT role.*, department.name AS department_name FROM role LEFT JOIN department ON role.department_id = department.id', function (err, results) {
+        db.query('SELECT role.id, role.title, role.salary, department.name AS department_name FROM role LEFT JOIN department ON role.department_id = department.id', function (err, results) {
           console.log("");
           console.table(results);
         });
@@ -183,7 +187,7 @@ const startMenu = async() => {
         break;
 
       case "Show all Employees":
-        db.query('SELECT employee.*, role.title AS role_title FROM employee LEFT JOIN role ON employee.role_id = role.id', function (err, results) {
+        db.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;", function (err, results) {
           console.log("");
           console.table(results);
         });
@@ -203,7 +207,7 @@ const startMenu = async() => {
         break;
 
       case "Update an Employee's role":
-        db.query('SELECT employee.*, role.title AS role_title FROM employee LEFT JOIN role ON employee.role_id = role.id', function (err, results) {
+        db.query('SELECT employee.id, employee.first_name, employee.last_name FROM employee', function (err, results) {
           console.log("");
           console.table(results);
         });
@@ -213,9 +217,7 @@ const startMenu = async() => {
   });
 }
 
-// employee.last_name AS manager_name FROM employee LEFT JOIN employee ON employee.manager_id = employee.id
-// employee.last_name AS manager_last_name FROM employee LEFT JOIN employee ON employee.manager_id = employee.id
-
+// startApp function to welcome user and routes to main startMenu function as switchboard for app
 const startApp = async() => {
   console.log('Welcome to the Employee Tracker!');
   console.log('Please choose an option below to get started:');
@@ -225,5 +227,5 @@ const startApp = async() => {
 
   
 
-
+// calls startApp function to begin app
 startApp();
