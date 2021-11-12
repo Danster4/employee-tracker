@@ -30,12 +30,12 @@ const addRoleQuestions = [
   {
     type: 'input',
     name: 'salary',
-    message: 'What is the salary of the new role?'
+    message: 'What is the salary of the new role? (numbers only please, i.e. "100000")'
   },
   {
     type: 'input',
     name: 'department',
-    message: 'What department is the new role in? Please type the number only of the department shown above!'
+    message: 'What department is the new role in? Please type the number only of the department shown above! (i.e. "4")'
   }
 ]
 
@@ -62,12 +62,12 @@ const addEmployeeQuestions = [
   {
     type: 'input',
     name: 'role_id',
-    message: 'What role is the new employee in? Please type the number only of the "id" section shown above!',
+    message: 'What role is the new employee in? Please type the number only of the "id" section shown above! (i.e. "4")',
   },
   {
     type: 'input',
     name: 'manager_id',
-    message: 'Who is the manager for the new employee? Please type the number only of the "id" section shown above!'
+    message: 'Who is the manager for the new employee? Please type the number only of the "id" section shown above! (i.e. "4")'
   }
 ]
 
@@ -75,7 +75,7 @@ const chooseEmployeeQuestion = [
   {
     type: 'input',
     name: 'employee_id',
-    message: 'Which employee would you like to update? Please only type the number of the "id" of the employee!'
+    message: 'Which employee would you like to update? Please only type the number of the "id" of the employee! (i.e. "4")'
   },
 ]
 
@@ -83,7 +83,7 @@ const updateEmployeeRoleQuestion = [
   {
     type: 'input',
     name: 'role_id',
-    message: 'What new role would you like for your employee? Please only type the number of the "id" of the role!'
+    message: 'What new role would you like for your employee? Please only type the number of the "id" of the role! (i.e. "4")'
   },
 ]
 

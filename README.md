@@ -18,7 +18,7 @@
   You will need to have node.js installed using an IDE of your choice, as well as downloading the necessary node_modules using npm install and appropriate installation phrases.
 
   ## Usage
-  To use this application, please download the files and follow the installation instructions. From there, you can seed the table with your staff/employees and can update your company's databases.
+  To use this application, please download the files and follow the installation instructions. From there, you can seed the table with your staff/employees and can update your company's databases. A Screencastify video to walkthrough how to use this application can be found here: https://watch.screencastify.com/v/jb5iiUch5IGACmK6n6ly
 
   ## Credits
   To create this app, I would like to thank UCF and the staff at the coding bootcamp for their knowledge and expertise in web development.
